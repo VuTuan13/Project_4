@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday</title>
+    <link rel="stylesheet" href="hp.css">
+    <link rel="shortcut icon" href="qua.jpg" type="image/x-icon">
+</head>
+<body>
+    <div class="clip-path"></div>
+    <div class="container">
+        <div class="box">
+            <h1>Happy <br/>birthday!!!!</h1>
+            <p>Năm nay nhớ nên chúc chú sinh nhật vui vẻ</p>
+        </div>
+            <div class="music_player">
+                <div class="album_art"></div>
+                <div class="time_container">
+                    <div class="currentTime" id="currentTime">0:00</div>
+                    <div class="durationTime" id="durationTime">0:00</div>
+                </div>
+
+                <div class="seek_bar">
+                    <div class="seek_bar_inner"></div>
+                </div>
+
+                <div class="control">
+                    <div id="play_btn" class="play_btn" onclick="play_song()"></div>
+                </div>
+            </div>
+    </div>
+    <script>
+        var music_player = new Audio(),
+        currentTime = document.getElementById('currentTime'),
+        durationTime = document.getElementById('durationTime'),
+        seek_bar = document.querySelector('.seek_bar_inner'),
+        play_btn = document.getElementById('play_btn');
+
+        music_player.src = "HappyBirthday-PhanDinhTung.mp3";
+
+        function getTimeFormat(time_var) {
+            var sec_num = parseInt(time_var, 10);
+            var hours = Math.floor(sec_num / 3600);
+            var minutes = Math.floor((sec_num - (hours * 3600)) / 60);
+            var sec = sec_num - (hours * 3600) - (minutes * 60);
+
+            if(hours < 10) {hours = "0" + hours}
+            if(minutes < 10) {minutes = "0" + minutes}
+            if(sec < 10) {sec = "0" + sec}
+
+            if(hours == 0) {
+                return minutes + ":" + sec;
+            }else
+            {
+                return hours + ":" + minutes + ":" + sec;
+            }
+        }
+
+        music_player.addEventListener('timeupdate', function() {
+            var player_currentTime = getTimeFormat(music_player.currentTime);
+            var player_duration = getTimeFormat(music_player.duration);
+            var seek_width = music_player.currentTime * 100 / music_player.duration;
+
+            currentTime.innerHTML = player_currentTime;
+            durationTime.innerHTML = player_duration;
+            seek_bar.style.width = seek_width + "%";
+        })
+
+        function play_song() {
+            if(music_player.paused) {
+                play_btn.style.background = "url(pause.jpg) center no-repeat"
+                play_btn.style.backgroundSize = "100%"
+                music_player.play()
+            }else
+            {
+                play_btn.style.background = "url(play.jpg) center no-repeat"
+                play_btn.style.backgroundSize = "100%"
+                play_btn.style.backgroundColor = "white"
+                music_player.pause()
+            }
+        }
+    </script>
+</body>
+</html>
